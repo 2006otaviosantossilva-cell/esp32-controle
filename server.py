@@ -5,9 +5,11 @@ app = Flask(__name__)
 
 comando = "desligar"
 
+
 @app.route("/")
 def inicio():
     return "SERVIDOR ESP32 ONLINE"
+
 
 @app.route("/ligar")
 def ligar():
@@ -15,15 +17,26 @@ def ligar():
     comando = "ligar"
     return jsonify({"comando": comando})
 
+
 @app.route("/desligar")
 def desligar():
     global comando
     comando = "desligar"
     return jsonify({"comando": comando})
 
+
 @app.route("/comando")
 def obter_comando():
     return jsonify({"comando": comando})
+
+
+@app.route("/status")
+def status():
+    if comando == "ligar":
+        return "ON"
+    else:
+        return "OFF"
+
 
 if __name__ == "__main__":
     porta = int(os.environ.get("PORT", 10000))
